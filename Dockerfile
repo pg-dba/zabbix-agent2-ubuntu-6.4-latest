@@ -9,7 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     chown root:zabbix /usr/bin/fping && \
     chmod u+s /usr/bin/fping && \
     mkdir -p /etc/zabbix/zabbix_agentd.d/query && \
-    sed -i 's/# Plugins.PostgreSQL.CustomQueriesPath=/Plugins.PostgreSQL.CustomQueriesPath=\/etc\/zabbix\/zabbix_agent2.d\/query/' /etc/zabbix/zabbix_agent2.d/plugins.d/postgresql.conf && \
+    sed -i 's/# Plugins.PostgreSQL.CustomQueriesPath=/Plugins.PostgreSQL.CustomQueriesPath=\/etc\/zabbix\/zabbix_agentd.d\/query/' /etc/zabbix/zabbix_agent2.d/plugins.d/postgresql.conf && \
     echo 'SELECT COUNT(*) as result FROM pg_ls_waldir() WHERE name ~ '"'"'^[0-9A-F]{24}$'"'"';' > /etc/zabbix/zabbix_agentd.d/query/walcount.sql && \
     echo 'SELECT (extract (epoch FROM ((x - n)::interval)))::integer as seconds FROM (SELECT min(modification) as n, max(modification) as x  FROM pg_ls_waldir() WHERE name ~ '"'"'^[0-9A-F]{24}$'"'"') tmp;' > /etc/zabbix/zabbix_agentd.d/query/walinterval.sql && \
     echo 'SELECT COUNT(*) as result FROM pg_replication_slots;' > /etc/zabbix/zabbix_agentd.d/query/rslot.sql && \
