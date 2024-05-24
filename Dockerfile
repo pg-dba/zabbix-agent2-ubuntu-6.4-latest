@@ -11,7 +11,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     chmod u+s /usr/bin/fping && \
     mkdir -p /etc/zabbix/zabbix_agentd.d/query && \
     sed -i 's/# Plugins.PostgreSQL.CustomQueriesPath=/Plugins.PostgreSQL.CustomQueriesPath=\/etc\/zabbix\/zabbix_agentd.d\/query/' /etc/zabbix/zabbix_agent2.d/plugins.d/postgresql.conf && \
-    echo "SELECT LEFT(setting,5)::text as version FROM pg_settings where name='server_version';" > /etc/zabbix/zabbix_agentd.d/query/pgversion.sql && \
+    echo "SELECT LEFT(setting,5)::text as result FROM pg_settings where name='server_version';" > /etc/zabbix/zabbix_agentd.d/query/pgversion.sql && \
     echo 'SELECT COUNT(*) as result FROM pg_ls_waldir() WHERE name ~ '"'"'^[0-9A-F]{24}$'"'"';' > /etc/zabbix/zabbix_agentd.d/query/walcount.sql && \
     echo 'SELECT (extract (epoch FROM ((x - n)::interval)))::integer as result FROM (SELECT min(modification) as n, max(modification) as x  FROM pg_ls_waldir() WHERE name ~ '"'"'^[0-9A-F]{24}$'"'"') tmp;' > /etc/zabbix/zabbix_agentd.d/query/walinterval.sql && \
     echo 'SELECT COUNT(*) as result FROM pg_replication_slots;' > /etc/zabbix/zabbix_agentd.d/query/rslot.sql && \
