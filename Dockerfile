@@ -1,4 +1,4 @@
-FROM zabbix/zabbix-agent2:ubuntu-6.4.15
+FROM zabbix/zabbix-agent2:ubuntu-6.4.17
 #FROM zabbix/zabbix-agent2:ubuntu-6.4-latest
 
 USER root
