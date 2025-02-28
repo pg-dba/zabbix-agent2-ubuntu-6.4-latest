@@ -1,4 +1,4 @@
-FROM zabbix/zabbix-agent2:ubuntu-6.4.17
+FROM zabbix/zabbix-agent2:ubuntu-6.4.19
 #FROM zabbix/zabbix-agent2:ubuntu-6.4-latest
 
 USER root
@@ -21,6 +21,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "SELECT CEILING( sum(stat.size) / 1024. / 1024. ) as result FROM public.zbx_ls_dir_log() AS logs CROSS JOIN LATERAL public.zbx_stat_log_file(logs) AS stat;" > /etc/zabbix/zabbix_agentd.d/query/logsize.sql && \
     echo 'SELECT count(*) as result FROM pg_settings WHERE pending_restart=true;' > /etc/zabbix/zabbix_agentd.d/query/pending_restart.sql && \
     echo "SELECT RTRIM(LEFT(LTRIM(setting),5)) as result FROM pg_settings WHERE name='server_version';" > /etc/zabbix/zabbix_agentd.d/query/pgversion.sql && \
+    echo "SELECT CEILING( stat.size / 1024. / 1024. ) as result FROM public.zbx_ls_dir_log() AS logs CROSS JOIN LATERAL public.zbx_stat_log_file(logs) AS stat ORDER BY stat.modification DESC LIMIT 1;" > /etc/zabbix/zabbix_agentd.d/query/logfilesize.sql && \
     chown -R zabbix:zabbix /etc/zabbix && \
     apt-get clean all && \
     unset DEBIAN_FRONTEND
