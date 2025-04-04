@@ -1,11 +1,11 @@
-FROM zabbix/zabbix-agent2:ubuntu-6.4.19
+FROM zabbix/zabbix-agent2:ubuntu-6.4.21
 #FROM zabbix/zabbix-agent2:ubuntu-6.4-latest
 
 USER root
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get -y install iputils-ping fping dnsutils telnet netcat && \
+    apt-get -y install iputils-ping fping dnsutils telnet netcat-traditional && \
     cd /usr/sbin; ln -s /usr/bin/fping && \
     chown root:zabbix /usr/bin/fping && \
     chmod u+s /usr/bin/fping && \
